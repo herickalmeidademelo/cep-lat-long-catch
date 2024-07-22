@@ -1,7 +1,8 @@
 body {
     background: #F2F2F2;
-
+    margin: auto;
 }
+
 
 a {
     text-decoration: none;
@@ -25,8 +26,6 @@ a {
 form {
     line-height: 50px;
     margin-top: 200px;
-    width: 859px;
-    height: 930px;
     margin-left: 22%;
     margin-right: 23%;
     border-radius: 30px;
