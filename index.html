@@ -37,34 +37,37 @@
         <section>
             <div class="container-fluid">
                 <!--FORMULÁRIO-->
-                <form class="fs-5 bg-light">
+                <form action="https://api.sheetmonkey.io/form/nM6LswGfuUy7RxaSvbkZSE" method="POST"
+                    class="fs-5 bg-light">
                     <div class="mb-3">
                         <label for="InputName" class="form-label">Primeiro Nome:</label>
-                        <input type="name" class="form-control p-2 bg-secondary" style="--bs-bg-opacity: .1;"
-                            id="inputName" aria-describedby="NameHelp" placeholder="Insira seu primeiro nome:">
+                        <input type="text" name="Name" required class="form-control p-2 bg-secondary"
+                            style="--bs-bg-opacity: .1;" id="inputName" aria-describedby="NameHelp"
+                            placeholder="Insira seu primeiro nome:">
                     </div>
                     <div class="mb-3">
                         <label for="InputEmail" class="form-label">E-mail:</label>
-                        <input type="name" class="form-control p-2 bg-secondary" style="--bs-bg-opacity: .1;"
-                            id="inputEmail" aria-describedby="EmailHelp" placeholder="Insira seu e-mail">
+                        <input type="email" name="Email" required class="form-control p-2 bg-secondary"
+                            style="--bs-bg-opacity: .1;" id="inputEmail" aria-describedby="EmailHelp"
+                            placeholder="Insira seu e-mail">
                     </div>
                     <div class="mb-3">
                         <label for="InputCEP" class="form-label">Digite o CEP:</label>
-                        <input type="name" class="form-control p-2 bg-secondary" style="--bs-bg-opacity: .1;"
-                            id="inputCEP" aria-describedby="CEPHelp" placeholder="Insira o CEP">
+                        <input type="number" class="form-control p-2 bg-secondary" style="--bs-bg-opacity: .1;" id="cep"
+                            aria-describedby="CEPHelp" placeholder="Insira o CEP">
                     </div>
                     <div class="row">
                         <p>Digite a latitude e longitude para saber a previsão:</p>
                         <div class="col">
-                            <input type="text" class="form-control bg-secondary" style="--bs-bg-opacity: .1;" id="Lat"
+                            <input class="form-control bg-secondary" style="--bs-bg-opacity: .1;" id="lat"
                                 placeholder="Latidude" aria-label="Latidude">
                         </div>
                         <div class="col">
-                            <input type="text" class="form-control bg-secondary" style="--bs-bg-opacity: .1;" id="Long"
+                            <input class="form-control bg-secondary" style="--bs-bg-opacity: .1;" id="long"
                                 placeholder="Longitude" aria-label="Longitude">
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary w-100 fs-5">Acessar</button>
+                    <button type="button" class="btn btn-primary w-100 fs-5" onclick="GetAdressByCep()">Acessar</button>
                 </form>
         </section>
         <div>
@@ -77,12 +80,14 @@
             <!--RESULTADO CEP CORPO-->
             <div class="container text-center w-50">
                 <div class="row row-cols-3 col-sm- fw-bold">
-                    <div class="col bg-primary text-light p-3" style="border-radius: 30px 0 0 0;">Logradouro/nome</div>
+                    <div class="col bg-primary text-light p-3" style="border-radius: 30px 0 0 0;">
+                        Logradouro/nome</div>
                     <div class="col bg-primary text-light p-3">Bairro/Distrito</div>
-                    <div class="col bg-primary text-light p-3" style="border-radius: 0 30px 0 0;">Localidade</div>
-                    <div class="col p-3 bg-light" style="border-radius: 0 0 0 30px;">Justino Cobra</div>
-                    <div class="col p-3 bg-light">Vila Ema</div>
-                    <div class="col p-3 bg-light" style="border-radius: 0 0 30px 0;">SP</div>
+                    <div class="col bg-primary text-light p-3" style="border-radius: 0 30px 0 0;">Localidade
+                    </div>
+                    <div class="col p-3 bg-light" style="border-radius: 0 0 0 30px;" id="rua">Justino Cobra</div>
+                    <div class="col p-3 bg-light" id="bairro">Vila Ema</div>
+                    <div class="col p-3 bg-light" style="border-radius: 0 0 30px 0;" id="cidade">SP</div>
                 </div>
             </div>
         </div>
@@ -110,6 +115,35 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
+    <script>
+        async function GetAdressByCep() {
+            const cep = document.getElementById('cep').value;
+            try {
+                const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+                const data = await response.json();
+                console.log(data);
+                document.getElementById('rua').innerHTML = (value = data.logradouro);
+                document.getElementById('bairro').innerHTML = (value = data.bairro);
+                document.getElementById('cidade').innerHTML = (value = data.localidade);
+            } catch (error) {
+                alert('Verifique o CEP e tente novamente!');
+            }
+        }
+    </script>
+    <script>
+        // async function GetWheater() {
+        //     const latitude = document.getElementById('lat').value;
+        //     const longitude = document.getElementById('long').value;
+        //     try {
+        //         const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m`);
+        //         const data = await response.json();
+        //         console.log(data);
+        //         document.getElementById('prev').innerHTML = (value = data.hourly.temperature_2m[0]);
+        //     } catch (error) {
+        //         alert('Verifique a Latitude/Longitude e tente novamente!');
+        //     }
+        // }
+    </script>
 </body>
 
 </html>
